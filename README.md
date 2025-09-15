@@ -1,4 +1,4 @@
-[![version](https://img.shields.io/badge/Version-0.1.1-red?style=flat&logo=github&logoColor=white)]()
+[![version](https://img.shields.io/badge/Version-0.1.2-red?style=flat&logo=github&logoColor=white)]()
 
 # Hi, I'm Kobalt!
 
@@ -14,13 +14,13 @@ docker pull registry.gitlab.com/kovalssky/kobalt-bot:latest
 **Step 2: Run the container with your bot token**
 Replace your_token_here with your actual bot token:
 ```
-docker run -e TOKEN=your_token_here registry.gitlab.com/kovalssky/kobalt-bot:latest
+docker run -e TOKEN=your_token_here  -v cookies.txt:/app/cookies.txt registry.gitlab.com/kovalssky/kobalt-bot:latest
 ```
 That’s it!
 
 **Optional: run container in the background (detached mode)**
 ```
-docker run -d -e TOKEN=your_token_here registry.gitlab.com/kovalssky/kobalt-bot:latest
+docker run -d -e TOKEN=your_token_here -v cookies.txt:/app/cookies.txt registry.gitlab.com/kovalssky/kobalt-bot:latest
 ```
 ---
 ### If you have multiple environment variables, you can use an .env file:
@@ -33,7 +33,7 @@ TOKEN=your_token_here
 Start the container using the env file:
 
 ```
-docker run --env-file .env registry.gitlab.com/kovalssky/kobalt-bot:latest
+docker run --env-file .env -v cookies.txt:/app/cookies.txt -d registry.gitlab.com/kovalssky/kobalt-bot:latest
 ```
 This is a quick and easy way to get the bot running using Docker.
 
