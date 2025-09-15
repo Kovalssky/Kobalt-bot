@@ -60,7 +60,7 @@ start_banner = r'''
 !  |____||____|'.__.'   \__/  \'-;__/[___][\__) )[__|  \_][\_:  /   
 !                                                          \__.'     '''
 start_info=f'''-----------------------------------------------
-•   bot name: telegram-bot-cobalt
+•   name: telegram-bot-kobalt
 •   developer: devKovalsky
 -----------------------------------------------
 

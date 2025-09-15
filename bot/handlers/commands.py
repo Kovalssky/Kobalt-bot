@@ -1,23 +1,20 @@
+import os
+
 import validators
 from aiogram import Router
-from aiogram.filters import Command, CommandStart, CommandObject
+from aiogram.filters import Command
 from aiogram.types import Message, BotCommand, FSInputFile
 
 from bot.locale import get_text as _
 from bot import utils
-from bot.cobalt import CobaltAPI
 
 router = Router()
-
-@router.message(CommandStart(deep_link=True))
-async def start_cmd(message: Message, command: CommandObject):
-    await utils.start_download(message, utils.decode_param(command.args))
-
 
 @router.message(Command("start"))
 async def start_cmd(message: Message):
     commands = [
-        BotCommand(command="services", description=_(message, "services_description"))
+        BotCommand(command="services", description=_(message, "services_description")),
+        BotCommand(command="audio", description=_(message, "audio_description"))
     ]
     me = await message.bot.get_me()
 
@@ -32,12 +29,18 @@ async def start_cmd(message: Message):
 
 @router.message(Command("services"))
 async def services_cmd(message: Message):
-    cobalt = CobaltAPI()
-    services = cobalt.services()
     await message.answer_photo(
         photo=FSInputFile(f"media/services_{message.from_user.language_code}.png"),
-        caption=_(message, "services_message", services=", ".join(services))
+        caption=_(message, "services_message", services=os.getenv("SERVICES"))
     )
+
+@router.message(Command("audio"))
+async def services_cmd(message: Message):
+    if len(message.text.split()) != 2:
+        await message.answer(text=_(message, "error_no_url_argument"))
+        return
+    link = message.text.split()[1]
+    await utils.start_download(message, audio_only=True, link=link)
 
 @router.message(lambda c: validators.url(c.text))
 async def url_message_handle(message: Message):
