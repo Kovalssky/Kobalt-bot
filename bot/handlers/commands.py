@@ -1,4 +1,4 @@
-import os
+import json
 
 import validators
 from aiogram import Router
@@ -29,9 +29,11 @@ async def start_cmd(message: Message):
 
 @router.message(Command("services"))
 async def services_cmd(message: Message):
+    with open("services.json", "r", encoding="utf-8") as f:
+        services = json.load(f)
     await message.answer_photo(
         photo=FSInputFile(f"media/services_{message.from_user.language_code}.png"),
-        caption=_(message, "services_message", services=os.getenv("SERVICES"))
+        caption=_(message, "services_message", services=", ".join(services))
     )
 
 @router.message(Command("audio"))
